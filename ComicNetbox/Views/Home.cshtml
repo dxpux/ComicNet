@@ -1,5 +1,6 @@
-﻿@{
-    Layout = null;
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<IEnumerable<string>>
+@{
+    List<int> a = new List<int>();
 }
 
 <!DOCTYPE html>
@@ -12,8 +13,12 @@
 <body>
     <div>
         <h1>Hello, Nancy!</h1>
-        <img src="~/comic/01/1.jpg"/>
+        @foreach (string pic in Model)
+        {
+            <p>
+                <img src="@pic" />
+            </p>
+        }
     </div>
-    <script src="~/Scripts/vue.js"></script>
 </body>
 </html>
