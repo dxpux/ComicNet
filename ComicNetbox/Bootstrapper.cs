@@ -21,7 +21,9 @@ namespace ComicNetbox
             nancyConventions.StaticContentsConventions.Add
                 (StaticContentConventionBuilder.AddDirectory("comic", comicPath));
             nancyConventions.StaticContentsConventions.Add
-                (StaticContentConventionBuilder.AddDirectory("js", "/Scripts"));
+                (StaticContentConventionBuilder.AddDirectory("content", "/Content"));
+            nancyConventions.StaticContentsConventions.Add
+                (StaticContentConventionBuilder.AddDirectory("scripts", "/Scripts"));
         }
     }
 }

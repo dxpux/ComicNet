@@ -1,24 +1,58 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<IEnumerable<string>>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<ComicNetbox.Models.DirMgrViewModel>
 @{
-    List<int> a = new List<int>();
+    int rootLenth = Model.Root.Length;
+    int parentLenth = Model.Root.Length + Model.Index.Substring(rootLenth - 1).TrimEnd('\\').LastIndexOf('\\');
+    if (Model.Root == Model.Index) { parentLenth = rootLenth; }
 }
 
 <!DOCTYPE html>
 
-<html>
+<html lang="zh-Hant">
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <link href="~/content/dirmgr.css" rel="stylesheet" />
+    <script src="~/scripts/vue.js"></script>
     <title></title>
 </head>
 <body>
-    <div>
-        <h1>Hello, Nancy!</h1>
-        @foreach (string pic in Model)
-        {
-            <p>
-                <img src="@pic" />
-            </p>
-        }
-    </div>
+    <h1 id="header">@Model.Index の索引</h1>
+    <table>
+        <thead>
+            <tr class="header" id="theader">
+                <th>名稱</th>
+                <th class="detailsColumn">大小</th>
+                <th class="detailsColumn">已修改日期</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            <tr>
+                <td>
+                    <a class="icon up" href="@String.Format(@"/dir{0}",Model.Index.Substring(rootLenth-1,parentLenth-rootLenth).Replace('\\', '/'))"></a>
+                    <a>[父目錄]</a>
+                </td>
+                <td class="detailsColumn"></td>
+                <td class="detailsColumn"></td>
+            </tr>
+            @foreach (DirectoryInfo dir in Model.Directorys)
+            {
+                <tr>
+                    <td>
+                        <a class="icon dir" href="@String.Format(@"/dir{0}",dir.FullName.Substring(rootLenth-1).Replace('\\', '/'))"></a>
+                        <a href="@String.Format(@"/comicpage{0}",dir.FullName.Substring(rootLenth-1).Replace('\\', '/'))">@dir.Name</a>
+                    </td>
+                    <td class="detailsColumn"></td>
+                    <td class="detailsColumn">@dir.LastWriteTime.ToString()</td>
+                </tr>
+            }
+            @foreach (FileInfo f in Model.Pictures)
+            {
+                <tr>
+                    <td><a class="icon file" href="">@f.Name</a></td>
+                    <td class="detailsColumn">@(f.Length / 1000) KB</td>
+                    <td class="detailsColumn">@f.LastWriteTime.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </body>
 </html>
