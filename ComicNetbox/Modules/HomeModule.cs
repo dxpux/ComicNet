@@ -41,15 +41,15 @@ namespace ComicNetbox.Modules
 
         private DirMgrViewModel GetFolderData(string path)
         {
-            string comicDir = ConfigurationManager.AppSettings["comicPath"].ToString().TrimStart('/').Replace('/', '\\');
+            string comicPath = ConfigurationManager.AppSettings["comicPath"].ToString().Trim('/').Replace('/', '\\');
             // C:\Test\comicPath\{path}
-            string targetRoot = string.Format(@"{0}{1}\{2}", rootPath, comicDir, path.Replace('/', '\\'));
-
-            DirectoryInfo di = new DirectoryInfo(targetRoot);
+            string comicDir = string.Format(@"{0}\{1}", rootPath.TrimEnd('\\'), comicPath);
+            string targetDir = string.Format(@"{0}\{1}", comicDir.TrimEnd('\\'), path.Replace('/', '\\'));
+            DirectoryInfo di = new DirectoryInfo(targetDir);
             DirMgrViewModel data = new DirMgrViewModel()
             {
-                Root = rootPath + comicDir + "\\",
-                Index = targetRoot,
+                Root = comicDir.TrimEnd('\\') + "\\",
+                Index = targetDir.TrimEnd('\\') + "\\",
                 Directorys = di.GetDirectories().ToList(),
                 Pictures = di.GetFiles("*.jpg").ToList(),
             };
