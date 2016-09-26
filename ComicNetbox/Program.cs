@@ -16,6 +16,7 @@ namespace ComicNetbox
             using (WebApp.Start<MySartup>("http://+:8080"))
             {
                 Console.WriteLine("OWIN hosting, press enter to exit");
+                System.Diagnostics.Process.Start("http://127.0.0.1:8080");
                 Console.Read();
             }
         }
