@@ -1,0 +1,23 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<IEnumerable<string>>
+@{
+    List<int> a = new List<int>();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        @foreach (string pic in Model)
+        {
+            <p>
+                <img src="@string.Format(@"/{0}",pic)" />
+            </p>
+        }
+    </div>
+</body>
+</html>
